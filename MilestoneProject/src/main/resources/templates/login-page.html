@@ -11,7 +11,9 @@
   <div class="container mt-5">
     <h1 class="mb-3">Login</h1>
 
-    <!-- Error message -->
+    <!-- Success message -->
+	<div th:if="${registerSuccess}" class="alert alert-success" th:text="${registerSuccess}"></div>
+	<!-- Error message -->
     <div th:if="${loginError}" class="alert alert-danger" th:text="${loginError}"></div>
 
     <div class="row justify-content-center">
