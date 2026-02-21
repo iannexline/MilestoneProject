@@ -5,28 +5,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-/**
- * Displays the home page after login.
- */
 @Controller
 public class HomeController {
 
-    /**
-     * Shows the home page. If user is not "logged in" (session flag),
-     * redirects to login for Milestone 2.
-     *
-     * @param session current HTTP session
-     * @param model   model for view
-     * @return home view or redirect to login
-     */
-    @GetMapping({"/", "/home"})
+    @GetMapping("/home")
     public String home(HttpSession session, Model model) {
-        Object loggedIn = session.getAttribute("loggedIn");
-        if (!(loggedIn instanceof Boolean) || !((Boolean) loggedIn)) {
+
+        Object emailObj = session.getAttribute("userEmail");
+        System.out.println("Home session userEmail = " + emailObj);
+
+        if (emailObj == null) {
             return "redirect:/login";
         }
 
-        model.addAttribute("userEmail", session.getAttribute("userEmail"));
+        model.addAttribute("userEmail", emailObj.toString());
         return "home";
     }
 }
