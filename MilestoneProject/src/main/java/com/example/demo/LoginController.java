@@ -34,17 +34,18 @@ public class LoginController {
      * @return redirect to home on success, otherwise show login with error
      */
     @PostMapping("/login")
-    public String processLogin(@ModelAttribute("loginForm") LoginForm form,
-                               Model model,
-                               HttpSession session) {
+    public String processLogin(@ModelAttribute("loginForm") LoginForm form, HttpSession session, Model model) {
 
-        if (InMemoryUserStore.isValidLogin(form.getEmail(), form.getPassword())) {
-            session.setAttribute("loggedIn", true);
-            session.setAttribute("userEmail", form.getEmail());
+        boolean ok = InMemoryUserStore.isValidLogin(form.getEmail(), form.getPassword());
+        System.out.println("Login ok? " + ok);
+
+        if (ok) {
+            session.setAttribute("userEmail", form.getEmail().trim());
+            System.out.println("Session userEmail set to: " + session.getAttribute("userEmail"));
             return "redirect:/home";
         }
 
-        model.addAttribute("loginError", "Invalid email or password. Try again.");
+        model.addAttribute("loginError", "Invalid email or password");
         return "login-page";
     }
-}
+  }
