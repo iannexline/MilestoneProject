@@ -18,7 +18,6 @@ public class RegistrationService {
 
     /**
      * "Registers" a user (Milestone 3)
-     * Later you will save to DB.
      */
     public void registerUser(String email, String password) {
         userStore.saveUser(email, password);

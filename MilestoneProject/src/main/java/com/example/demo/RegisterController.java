@@ -63,7 +63,7 @@ public class RegisterController {
             return "register";
         }
 
-        // Save user using the business layer (stores in InMemoryUserStore)
+        // Bean-based registration
         registrationService.registerUser(form.getEmail(), form.getPassword());
 
         // Show success message on login page after redirect

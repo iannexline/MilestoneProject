@@ -3,7 +3,8 @@ package com.example.demo;
 import org.springframework.stereotype.Component;
 
 /**
- * Stores ONE registered user in memory (no database yet).
+ * Milestone 3 (No DB yet):
+ * Stores ONE user's email/password in memory.
  */
 @Component
 public class InMemoryUserStore implements UserStore {

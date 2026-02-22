@@ -1,8 +1,7 @@
 package com.example.demo;
 
 /**
- * Beginner-friendly interface so later you can replace
- * the in-memory store with a database store.
+ *  Simple interface that can be later replaced for future milestones.
  */
 public interface UserStore {
 
