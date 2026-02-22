@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login – MarketPlace</title>
+  <title>Register – MarketPlace</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
   <style>
@@ -61,13 +61,13 @@
       border: 2px solid var(--text);
       border-radius: 4px;
       width: 100%;
-      max-width: 420px;
+      max-width: 460px;
       box-shadow: 6px 6px 0 var(--text);
       overflow: hidden;
     }
 
     .auth-card-header {
-      background: var(--text);
+      background: var(--brand);
       color: #fff;
       padding: 1.4rem 2rem;
     }
@@ -79,7 +79,7 @@
     }
     .auth-card-header p {
       font-size: 0.85rem;
-      color: #bbb;
+      color: rgba(255,255,255,0.75);
     }
 
     .auth-card-body { padding: 2rem; }
@@ -108,8 +108,10 @@
       background: #fff;
     }
 
-    .btn-signin {
-      background: var(--brand);
+    .name-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .btn-register {
+      background: var(--text);
       color: #fff;
       border: 2px solid var(--text);
       border-radius: 4px;
@@ -119,17 +121,17 @@
       font-weight: 700;
       width: 100%;
       letter-spacing: 0.03em;
-      box-shadow: 3px 3px 0 var(--text);
+      box-shadow: 3px 3px 0 var(--brand);
       transition: transform 0.1s, box-shadow 0.1s;
       cursor: pointer;
     }
-    .btn-signin:hover {
-      background: var(--brand-dark);
+    .btn-register:hover {
+      background: #333;
       transform: translate(1px, 1px);
-      box-shadow: 2px 2px 0 var(--text);
+      box-shadow: 2px 2px 0 var(--brand);
       color: #fff;
     }
-    .btn-signin:active {
+    .btn-register:active {
       transform: translate(3px, 3px);
       box-shadow: none;
     }
@@ -152,20 +154,19 @@
     .divider::before { left: 0; }
     .divider::after  { right: 0; }
 
-    .register-link {
+    .login-link {
       display: block;
       text-align: center;
       font-size: 0.9rem;
       color: var(--muted);
     }
-    .register-link a {
+    .login-link a {
       color: var(--brand);
       font-weight: 500;
       text-decoration: none;
     }
-    .register-link a:hover { text-decoration: underline; }
+    .login-link a:hover { text-decoration: underline; }
 
-    /* alert tweak */
     .alert { border-radius: 4px; font-size: 0.9rem; }
   </style>
 </head>
@@ -181,35 +182,53 @@
     <div class="auth-card">
 
       <div class="auth-card-header">
-        <h1>Welcome back</h1>
-        <p>Sign in to your account to continue</p>
+        <h1>Create an account</h1>
+        <p>Join MarketPlace and start buying &amp; selling today</p>
       </div>
 
       <div class="auth-card-body">
 
         <!-- Error message -->
-        <div th:if="${loginError}" class="alert alert-danger mb-3" th:text="${loginError}"></div>
+        <div th:if="${registerError}" class="alert alert-danger mb-3" th:text="${registerError}"></div>
+        <!-- Success message -->
+        <div th:if="${registerSuccess}" class="alert alert-success mb-3" th:text="${registerSuccess}"></div>
 
-        <form th:action="@{/login}" th:object="${loginForm}" method="post">
+        <form th:action="@{/register}" th:object="${registerForm}" method="post">
+
+          <div class="name-row mb-3">
+            <div>
+              <label class="form-label">First name</label>
+              <input type="text" class="form-control" th:field="*{firstName}" placeholder="Jane" />
+            </div>
+            <div>
+              <label class="form-label">Last name</label>
+              <input type="text" class="form-control" th:field="*{lastName}" placeholder="Doe" />
+            </div>
+          </div>
 
           <div class="mb-3">
             <label class="form-label">Email address</label>
             <input type="email" class="form-control" th:field="*{email}" placeholder="you@example.com" />
           </div>
 
-          <div class="mb-4">
+          <div class="mb-3">
             <label class="form-label">Password</label>
             <input type="password" class="form-control" th:field="*{password}" placeholder="••••••••" />
           </div>
 
-          <button type="submit" class="btn-signin">Sign In</button>
+          <div class="mb-4">
+            <label class="form-label">Confirm password</label>
+            <input type="password" class="form-control" th:field="*{confirmPassword}" placeholder="••••••••" />
+          </div>
+
+          <button type="submit" class="btn-register">Create Account</button>
 
         </form>
 
         <div class="divider">or</div>
 
-        <p class="register-link">
-          Don't have an account? <a th:href="@{/register}">Create one free</a>
+        <p class="login-link">
+          Already have an account? <a th:href="@{/login}">Sign in</a>
         </p>
 
       </div>
