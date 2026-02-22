@@ -48,7 +48,7 @@ public class RegisterController {
             return "register";
         }
 
-        // ✅ Bean-based registration (very simple)
+        // Bean-based registration
         registrationService.registerUser(form.getEmail(), form.getPassword());
 
         redirectAttributes.addFlashAttribute("registerSuccess",

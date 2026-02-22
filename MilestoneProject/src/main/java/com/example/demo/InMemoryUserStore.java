@@ -5,8 +5,6 @@ import org.springframework.stereotype.Component;
 /**
  * Milestone 3 (No DB yet):
  * Stores ONE user's email/password in memory.
- *
- * Later (Milestone 4), this can be replaced by a DB Repository.
  */
 @Component
 public class InMemoryUserStore implements UserStore {
