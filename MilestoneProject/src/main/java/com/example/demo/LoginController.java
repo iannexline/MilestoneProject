@@ -14,14 +14,24 @@ public class LoginController {
 
     private final LoginService loginService;
 
-    // Spring injects the LoginService bean
     public LoginController(LoginService loginService) {
         this.loginService = loginService;
     }
 
     @GetMapping("/login")
-    public String showLoginForm(Model model) {
-        model.addAttribute("loginForm", new LoginForm());
+    public String showLoginForm(Model model,
+                               @RequestParam(value = "registered", required = false) String registered) {
+
+        // Make sure the form always exists
+        if (!model.containsAttribute("loginForm")) {
+            model.addAttribute("loginForm", new LoginForm());
+        }
+
+        // Optional: show success message after register redirect
+        if (registered != null) {
+            model.addAttribute("registerSuccess", "Registration successful! Please log in.");
+        }
+
         return "login-page";
     }
 
@@ -30,10 +40,13 @@ public class LoginController {
                                HttpSession session,
                                Model model) {
 
-        // Bean-based login check
-        boolean ok = loginService.attemptLogin(form.getEmail(), form.getPassword());
+        boolean ok = loginService.attemptLogin(
+                form.getEmail() == null ? "" : form.getEmail().trim(),
+                form.getPassword() == null ? "" : form.getPassword()
+        );
 
         if (ok) {
+            session.setAttribute("loggedIn", true);              
             session.setAttribute("userEmail", form.getEmail().trim());
             return "redirect:/home";
         }
@@ -41,4 +54,5 @@ public class LoginController {
         model.addAttribute("loginError", "Invalid email or password");
         return "login-page";
     }
+
 }
