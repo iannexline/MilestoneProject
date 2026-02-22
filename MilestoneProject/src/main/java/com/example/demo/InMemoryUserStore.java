@@ -1,30 +1,46 @@
 package com.example.demo;
 
+import org.springframework.stereotype.Component;
+
 /**
- * Stores one registered user in memory
+ * Milestone 3 (No DB yet):
+ * Stores ONE user's email/password in memory.
+ *
+ * Later (Milestone 4), this can be replaced by a DB Repository.
  */
-public class InMemoryUserStore {
+@Component
+public class InMemoryUserStore implements UserStore {
 
-    private static String registeredEmail;
-    private static String registeredPassword;
+    // Stored in memory (not a database yet)
+    private String savedEmail;
+    private String savedPassword;
 
-    public static void saveUser(String email, String password) {
-
-        registeredEmail = email;
-        registeredPassword = password;
-
-        System.out.println("Saved user: " + email + " / " + password);
+    @Override
+    public void saveUser(String email, String password) {
+        this.savedEmail = email;
+        this.savedPassword = password;
     }
 
-    public static boolean isValidLogin(String email, String password) {
+    @Override
+    public boolean isValidLogin(String email, String password) {
 
-        System.out.println("Login attempt: " + email + " / " + password);
-        System.out.println("Stored user: " + registeredEmail + " / " + registeredPassword);
+        // If no one registered yet, nothing to match
+        if (savedEmail == null || savedPassword == null) {
+            return false;
+        }
 
-        if (registeredEmail == null) return false;
+        // Basic checks
+        if (email == null || password == null) {
+            return false;
+        }
 
-        return registeredEmail.equals(email)
-                && registeredPassword.equals(password);
+        // Trim email spaces and compare
+        return savedEmail.equalsIgnoreCase(email.trim())
+                && savedPassword.equals(password);
     }
 
+    @Override
+    public String getSavedEmail() {
+        return savedEmail;
+    }
 }
