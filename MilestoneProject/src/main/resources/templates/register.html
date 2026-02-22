@@ -1,46 +1,264 @@
-<html layout:decorate="~{common}">
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common}">
+<head>
+  <meta charset="UTF-8">
+  <title>Varo – Create Account</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink-light: #fce4ec;
+      --pink-mid:   #f8bbd0;
+      --pink-accent:#f48fb1;
+      --black:      #0f0f0f;
+      --white:      #ffffff;
+      --muted:      #888;
+      --border:     #e8d5dc;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #fdf6f8;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .auth-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+      background:
+        radial-gradient(ellipse at 20% 50%, #fce4ec88 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, #f8bbd044 0%, transparent 50%),
+        #fdf6f8;
+    }
+
+    .auth-card {
+      background: var(--pink-light);
+      border: 2px solid var(--black);
+      border-radius: 2px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 8px 8px 0 var(--black);
+      overflow: hidden;
+      animation: slideUp 0.5s cubic-bezier(.22,.68,0,1.2) both;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .auth-header {
+      background: var(--black);
+      padding: 2rem 2rem 1.6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-header::after {
+      content: 'VARO';
+      position: absolute;
+      right: -10px;
+      top: -10px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 6rem;
+      color: #ffffff10;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .varo-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      color: var(--white);
+      letter-spacing: 0.08em;
+      line-height: 1;
+    }
+
+    .varo-logo span {
+      color: var(--pink-accent);
+    }
+
+    .auth-header p {
+      color: #aaa;
+      font-size: 0.82rem;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      margin-top: 0.4rem;
+    }
+
+    .auth-body {
+      padding: 2rem;
+    }
+
+    .form-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--black);
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+
+    .form-control {
+      background: var(--white);
+      border: 2px solid var(--black);
+      border-radius: 2px;
+      padding: 0.65rem 0.9rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem;
+      color: var(--black);
+      transition: border-color 0.15s, box-shadow 0.15s;
+      width: 100%;
+    }
+
+    .form-control::placeholder { color: #bbb; }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--pink-accent);
+      box-shadow: 3px 3px 0 var(--pink-accent);
+      background: var(--white);
+    }
+
+    .mb-field { margin-bottom: 1.1rem; }
+
+    .text-danger {
+      font-size: 0.75rem;
+      color: var(--pink-accent) !important;
+      margin-top: 0.25rem;
+    }
+
+    .name-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .btn-varo {
+      display: block;
+      width: 100%;
+      background: var(--black);
+      color: var(--white);
+      border: 2px solid var(--black);
+      border-radius: 2px;
+      padding: 0.75rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: 0.12em;
+      box-shadow: 4px 4px 0 var(--pink-accent);
+      transition: transform 0.1s, box-shadow 0.1s;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+
+    .btn-varo:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 var(--pink-accent);
+      color: var(--white);
+    }
+
+    .divider {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin: 1.4rem 0;
+      position: relative;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 44%;
+      height: 1px;
+      background: var(--border);
+    }
+    .divider::before { left: 0; }
+    .divider::after  { right: 0; }
+
+    .login-link {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .login-link a {
+      color: var(--black);
+      font-weight: 500;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .login-link a:hover { color: var(--pink-accent); }
+  </style>
+</head>
+<body>
 
 <div layout:fragment="content">
+  <div class="auth-wrapper">
+    <div class="auth-card">
 
-<div class="row justify-content-center">
+      <div class="auth-header">
+        <div class="varo-logo">VAR<span>O</span></div>
+        <p>Create your account — it's free</p>
+      </div>
 
-<div class="col-md-6">
+      <div class="auth-body">
 
-<div class="brand-card p-4">
+        <form th:action="@{/register}" th:object="${registerForm}" method="post">
 
-<h2 class="brand-title mb-3">Create Account</h2>
+          <div class="name-row">
+            <div>
+              <label class="form-label">First Name</label>
+              <input class="form-control" th:field="*{firstName}" placeholder="Jane" />
+              <div class="text-danger" th:text="${firstNameError}"></div>
+            </div>
+            <div>
+              <label class="form-label">Last Name</label>
+              <input class="form-control" th:field="*{lastName}" placeholder="Doe" />
+              <div class="text-danger" th:text="${lastNameError}"></div>
+            </div>
+          </div>
 
-<form th:action="@{/register}" th:object="${registerForm}" method="post">
+          <div class="mb-field">
+            <label class="form-label">Email</label>
+            <input class="form-control" th:field="*{email}" placeholder="you@example.com" />
+            <div class="text-danger" th:text="${emailError}"></div>
+          </div>
 
-<input class="form-control mb-2" th:field="*{firstName}" placeholder="First Name">
-<div class="text-danger" th:text="${firstNameError}"></div>
+          <div class="mb-field">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" th:field="*{password}" placeholder="••••••••" />
+            <div class="text-danger" th:text="${passwordError}"></div>
+          </div>
 
-<input class="form-control mb-2" th:field="*{lastName}" placeholder="Last Name">
-<div class="text-danger" th:text="${lastNameError}"></div>
+          <div class="mb-field">
+            <label class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" th:field="*{confirmPassword}" placeholder="••••••••" />
+            <div class="text-danger" th:text="${confirmPasswordError}"></div>
+          </div>
 
-<input class="form-control mb-2" th:field="*{email}" placeholder="Email">
-<div class="text-danger" th:text="${emailError}"></div>
+          <button type="submit" class="btn-varo">Create Account</button>
 
-<input type="password" class="form-control mb-2" th:field="*{password}" placeholder="Password">
-<div class="text-danger" th:text="${passwordError}"></div>
+        </form>
 
-<input type="password" class="form-control mb-3" th:field="*{confirmPassword}" placeholder="Confirm Password">
-<div class="text-danger" th:text="${confirmPasswordError}"></div>
+        <div class="divider">or</div>
 
-<button class="btn brand-btn w-100">
+        <p class="login-link">
+          Already have an account? <a th:href="@{/login}">Sign In</a>
+        </p>
 
-Register
-
-</button>
-
-</form>
-
+      </div>
+    </div>
+  </div>
 </div>
 
-</div>
-
-</div>
-
-</div>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
