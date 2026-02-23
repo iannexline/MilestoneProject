@@ -2,37 +2,39 @@
 
 <div layout:fragment="content">
 
-<div class="row justify-content-center">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="brand-card p-4 text-center">
 
-<div class="col-md-6">
+                <h2 class="brand-title">
+                    Welcome
+                </h2>
 
-<div class="brand-card p-4 text-center">
+                <p>
+                    Logged in as:
+                    <b th:text="${userEmail}"></b>
+                </p>
 
-<h2 class="brand-title">
+                <!-- NEW: Marketplace actions -->
+                <div class="d-grid gap-2 mt-4">
 
-Welcome
+                    <a th:href="@{/products}" class="btn brand-btn">
+                        View Products
+                    </a>
 
-</h2>
+                    <a th:href="@{/products/new}" class="btn brand-btn">
+                        Add New Product
+                    </a>
 
-<p>
+                </div>
 
-Logged in as:
+                <a th:href="@{/logout}" class="btn btn-outline-dark mt-3">
+                    Logout
+                </a>
 
-<b th:text="${userEmail}"></b>
-
-</p>
-
-<a th:href="@{/logout}" class="btn brand-btn mt-3">
-
-Logout
-
-</a>
-
-</div>
-
-</div>
-
-</div>
+            </div>
+        </div>
+    </div>
 
 </div>
 
