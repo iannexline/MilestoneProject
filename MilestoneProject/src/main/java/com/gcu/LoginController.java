@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.gcu;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -40,12 +40,11 @@ public class LoginController {
                                HttpSession session,
                                Model model) {
 
-        boolean ok = loginService.attemptLogin(
-                form.getUsername() == null ? "" : form.getUsername().trim(),
-                form.getPassword() == null ? "" : form.getPassword()
+        boolean success = loginService.attemptLogin(
+        		form.getUsername(), form.getPassword()
         );
 
-        if (ok) {
+        if (success) {
             session.setAttribute("loggedIn", true);              
             session.setAttribute("username", form.getUsername().trim());
             return "redirect:/home";

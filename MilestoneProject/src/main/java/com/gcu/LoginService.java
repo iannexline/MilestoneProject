@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.gcu;
 
 import org.springframework.stereotype.Service;
 
@@ -23,12 +23,15 @@ public class LoginService {
      * Returns true if credentials match the stored user.
      */
     public boolean attemptLogin(String username, String password) {
-       	UserEntity user = usersDataService.findByUsername(username);
+    	if (username == null || password == null) {
+    		return false;
+    	}
+       	UserEntity user = usersDataService.findByUsername(username.trim());
        	
        	if (user == null) {
        		return false;
        	}
        	
-       	return user.getPassword().equals(password);
+       	return user.getPassword().trim().equals(password.trim());
     }
 }

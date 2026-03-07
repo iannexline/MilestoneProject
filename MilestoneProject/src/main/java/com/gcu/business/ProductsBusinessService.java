@@ -1,14 +1,17 @@
 package com.gcu.business;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.gcu.data.entity.ProductEntity;
 import com.gcu.data.repository.ProductsRepository;
 import com.gcu.model.ProductModel;
 
+@Service
 public class ProductsBusinessService implements ProductsBusinessInterface{
 	
 	@Autowired

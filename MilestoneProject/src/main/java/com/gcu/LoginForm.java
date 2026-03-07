@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.gcu;
 
 /**
  * Holds login form data.

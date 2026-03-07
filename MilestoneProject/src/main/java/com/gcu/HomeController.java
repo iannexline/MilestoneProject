@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.gcu;
 
 import java.util.List;
 

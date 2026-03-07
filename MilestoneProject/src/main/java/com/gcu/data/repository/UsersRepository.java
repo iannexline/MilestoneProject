@@ -14,7 +14,6 @@ public interface UsersRepository extends CrudRepository<UserEntity, Long>{
 	@Query (value = "SELECT * FROM USERS")
 	public List<UserEntity> findAll();
 	
-	
 	@Query (value = "SELECT * FROM USERS WHERE USERNAME = :username")
 	public UserEntity findByUsername(@Param("username")String username);
 	
