@@ -1,82 +1,185 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common}">
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand:      #e8410a;
+      --brand-dark: #c23508;
+      --bg:         #f5f3ef;
+      --card-bg:    #ffffff;
+      --text:       #1a1a1a;
+      --muted:      #6b6b6b;
+      --border:     #e0dcd6;
+    }
 
-    <!-- SAME Bootstrap as register -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    .auth-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1rem;
+      background-color: var(--bg);
+      min-height: 70vh;
+    }
+
+    .auth-card {
+      background: var(--card-bg);
+      border: 2px solid var(--text);
+      border-radius: 4px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 6px 6px 0 var(--text);
+      overflow: hidden;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .auth-card-header {
+      background: var(--text);
+      color: #fff;
+      padding: 1.4rem 2rem;
+    }
+    .auth-card-header h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 0.15rem;
+    }
+    .auth-card-header p {
+      font-size: 0.85rem;
+      color: #bbb;
+      margin: 0;
+    }
+
+    .auth-card-body { padding: 2rem; }
+
+    .form-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .form-control {
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      padding: 0.6rem 0.85rem;
+      font-size: 0.95rem;
+      background: #faf9f7;
+    }
+    .form-control:focus {
+      border-color: var(--brand);
+      box-shadow: none;
+      background: #fff;
+    }
+
+    .btn-signin {
+      background: var(--brand);
+      color: #fff;
+      border: 2px solid var(--text);
+      border-radius: 4px;
+      padding: 0.65rem;
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      width: 100%;
+      box-shadow: 3px 3px 0 var(--text);
+      transition: transform 0.1s, box-shadow 0.1s;
+      cursor: pointer;
+    }
+    .btn-signin:hover {
+      background: var(--brand-dark);
+      transform: translate(1px, 1px);
+      box-shadow: 2px 2px 0 var(--text);
+      color: #fff;
+    }
+
+    .divider {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin: 1.25rem 0;
+      position: relative;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 42%;
+      height: 1px;
+      background: var(--border);
+    }
+    .divider::before { left: 0; }
+    .divider::after  { right: 0; }
+
+    .register-link {
+      display: block;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .register-link a {
+      color: var(--brand);
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .register-link a:hover { text-decoration: underline; }
+  </style>
 </head>
 
 <body>
 
-<!-- Header -->
-<div th:replace="~{header :: header}"></div>
+<div layout:fragment="content">
 
-<div class="container my-4">
+  <div class="auth-wrapper">
+    <div class="auth-card">
 
-    <h1 class="mb-3">Login</h1>
+      <div class="auth-card-header">
+        <h1>Welcome back</h1>
+        <p>Sign in to your account to continue</p>
+      </div>
 
-    <!-- Success message from register -->
-    <div th:if="${registerSuccess}" class="alert alert-success" th:text="${registerSuccess}"></div>
+      <div class="auth-card-body">
 
-    <!-- Error message -->
-    <div th:if="${loginError}" class="alert alert-danger" th:text="${loginError}"></div>
+        <!-- Success message from register -->
+        <div th:if="${registerSuccess}" class="alert alert-success mb-3" th:text="${registerSuccess}"></div>
+        <!-- Error message -->
+        <div th:if="${loginError}" class="alert alert-danger mb-3" th:text="${loginError}"></div>
 
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-8 col-lg-5">
+        <form th:action="@{/login}" th:object="${loginForm}" method="post">
 
-            <form th:action="@{/login}"
-                  th:object="${loginForm}"
-                  method="post"
-                  class="border rounded p-4">
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" th:field="*{email}" placeholder="test@test.com" />
+          </div>
 
-                <div class="mb-3">
+          <div class="mb-4">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" th:field="*{password}" placeholder="password" />
+          </div>
 
-                    <label class="form-label">Email</label>
+          <button type="submit" class="btn-signin">Sign In</button>
 
-                    <input type="email"
-                           class="form-control"
-                           th:field="*{email}"
-                           placeholder="test@test.com"/>
+        </form>
 
-                </div>
+        <div class="divider">or</div>
 
-                <div class="mb-3">
+        <p class="register-link">
+          Don't have an account? <a th:href="@{/register}">Register</a>
+        </p>
 
-                    <label class="form-label">Password</label>
-
-                    <input type="password"
-                           class="form-control"
-                           th:field="*{password}"
-                           placeholder="password"/>
-
-                </div>
-
-                <button type="submit"
-                        class="btn btn-primary w-100">
-
-                    Sign In
-
-                </button>
-
-            </form>
-
-            <p class="mt-3 text-center">
-
-                Don't have an account?
-
-                <a th:href="@{/register}">Register</a>
-
-            </p>
-
-        </div>
+      </div>
     </div>
+  </div>
 
 </div>
-
-<!-- Footer -->
-<div th:replace="~{footer :: footer}"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 

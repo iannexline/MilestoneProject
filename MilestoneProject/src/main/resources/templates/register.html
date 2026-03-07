@@ -1,62 +1,46 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Register</title>
+<html layout:decorate="~{common}">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+<div layout:fragment="content">
 
-<div th:replace="~{header :: header}"></div>
+<div class="row justify-content-center">
 
-<div class="container my-4">
-    <h1 class="mb-3">Register</h1>
+<div class="col-md-6">
 
-    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+<div class="brand-card p-4">
 
-    <form th:action="@{/register}" th:object="${registerForm}" method="post" class="border rounded p-4">
+<h2 class="brand-title mb-3">Create Account</h2>
 
-        <div class="mb-3">
-            <label class="form-label">First Name</label>
-            <input class="form-control" type="text" th:field="*{firstName}">
-            <small class="text-danger" th:if="${firstNameError}" th:text="${firstNameError}"></small>
-        </div>
+<form th:action="@{/register}" th:object="${registerForm}" method="post">
 
-        <div class="mb-3">
-            <label class="form-label">Last Name</label>
-            <input class="form-control" type="text" th:field="*{lastName}">
-            <small class="text-danger" th:if="${lastNameError}" th:text="${lastNameError}"></small>
-        </div>
+<input class="form-control mb-2" th:field="*{firstName}" placeholder="First Name">
+<div class="text-danger" th:text="${firstNameError}"></div>
 
-        <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input class="form-control" type="email" th:field="*{email}">
-            <small class="text-danger" th:if="${emailError}" th:text="${emailError}"></small>
-        </div>
+<input class="form-control mb-2" th:field="*{lastName}" placeholder="Last Name">
+<div class="text-danger" th:text="${lastNameError}"></div>
 
-        <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input class="form-control" type="password" th:field="*{password}">
-            <small class="text-danger" th:if="${passwordError}" th:text="${passwordError}"></small>
-        </div>
+<input class="form-control mb-2" th:field="*{email}" placeholder="Email">
+<div class="text-danger" th:text="${emailError}"></div>
 
-        <div class="mb-3">
-            <label class="form-label">Confirm Password</label>
-            <input class="form-control" type="password" th:field="*{confirmPassword}">
-            <small class="text-danger" th:if="${confirmPasswordError}" th:text="${confirmPasswordError}"></small>
-        </div>
+<input type="password" class="form-control mb-2" th:field="*{password}" placeholder="Password">
+<div class="text-danger" th:text="${passwordError}"></div>
 
-        <button class="btn btn-primary w-100" type="submit">Register</button>
+<input type="password" class="form-control mb-3" th:field="*{confirmPassword}" placeholder="Confirm Password">
+<div class="text-danger" th:text="${confirmPasswordError}"></div>
 
-        <p class="mt-3 text-center">
-            Already have an account? <a th:href="@{/login}">Login</a>
-        </p>
-    </form>
+<button class="btn brand-btn w-100">
+
+Register
+
+</button>
+
+</form>
+
 </div>
 
-<div th:replace="~{footer :: footer}"></div>
+</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+</div>
+
+</div>
+
 </html>
