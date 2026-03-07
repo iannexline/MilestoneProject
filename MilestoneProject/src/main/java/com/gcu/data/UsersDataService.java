@@ -44,14 +44,17 @@ public class UsersDataService implements DataAccessInterface<UserEntity>{
 	}
 
 	public UserEntity findById(int id) {
-		return null;
+		return usersRepository.findById(id);
 	}
 
 	public UserEntity findByUsername(String username) {
 		 return usersRepository.findByUsername(username);
 	}
-
 	
+	public UserEntity findByEmail(String email) {
+		 return usersRepository.findByEmail(email);
+	}
+
 	public boolean create(UserEntity user) {
 		String sql = "INSERT INTO USERS(FIRST_NAME, LAST_NAME, USERNAME, EMAIL, PASSWORD) VALUES (?, ?, ?, ?, ?)";
 		try {
@@ -70,11 +73,33 @@ public class UsersDataService implements DataAccessInterface<UserEntity>{
 	}
 
 	public boolean update(UserEntity user) {
-		return true;
+		String sql = "UPDATE USERS SET FIRST_NAME = ?, LAST_NAME = ?, USERNAME = ?, EMAIL = ?, PASSWORD = ? WHERE ID = ?";
+		try {
+			int rows = jdbcTemplateObject.update(sql,
+					user.getFirstName(),
+					user.getLastName(),
+					user.getUsername(),
+					user.getEmail(),
+					user.getPassword(),
+					user.getId());
+			return rows == 1;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
-	public boolean delete(UserEntity user) {
-		return true;
+	public boolean delete(int id) {
+		String sql = "DELETE FROM USERS WHERE ID = ?";
+		try {
+			int rows = jdbcTemplateObject.update(sql, id);
+			return rows == 1 ? true : false;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }

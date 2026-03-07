@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.gcu.registration;
 
 /**
  * Holds data from the registration form.
@@ -8,6 +8,7 @@ public class RegisterForm {
 
     private String firstName;
     private String lastName;
+    private String username;
     private String email;
     private String password;
     private String confirmPassword;
@@ -56,5 +57,13 @@ public class RegisterForm {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+    
+    public String getUsername() {
+    	return username;
+    }
+    
+    public void setUsername(String username) {
+    	this.username = username;
     }
 }

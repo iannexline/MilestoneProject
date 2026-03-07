@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.gcu.registration;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +39,10 @@ public class RegisterController {
             model.addAttribute("lastNameError", "Last name is required.");
             hasErrors = true;
         }
+        if (isBlank(form.getUsername())) {
+            model.addAttribute("usernameError", "Username is required.");
+            hasErrors = true;
+        }
         if (isBlank(form.getEmail())) {
             model.addAttribute("emailError", "Email is required.");
             hasErrors = true;
@@ -63,8 +67,12 @@ public class RegisterController {
             return "register";
         }
 
-        // Bean-based registration
-        registrationService.registerUser(form.getEmail(), form.getPassword());
+        boolean success = registrationService.registerUser(form.getFirstName(), form.getLastName(),form.getUsername(), form.getEmail(), form.getPassword());
+        
+        if(!success) {
+        	model.addAttribute("usernameError","Username or Email already exists.");
+        	return "register";
+        }
 
         // Show success message on login page after redirect
         redirectAttributes.addFlashAttribute(
