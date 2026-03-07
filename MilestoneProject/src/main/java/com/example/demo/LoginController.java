@@ -41,17 +41,17 @@ public class LoginController {
                                Model model) {
 
         boolean ok = loginService.attemptLogin(
-                form.getEmail() == null ? "" : form.getEmail().trim(),
+                form.getUsername() == null ? "" : form.getUsername().trim(),
                 form.getPassword() == null ? "" : form.getPassword()
         );
 
         if (ok) {
             session.setAttribute("loggedIn", true);              
-            session.setAttribute("userEmail", form.getEmail().trim());
+            session.setAttribute("username", form.getUsername().trim());
             return "redirect:/home";
         }
 
-        model.addAttribute("loginError", "Invalid email or password");
+        model.addAttribute("loginError", "Invalid username or password");
         return "login-page";
     }
 

@@ -1,0 +1,42 @@
+package com.gcu.registration;
+
+import org.springframework.stereotype.Service;
+
+import com.gcu.data.UsersDataService;
+import com.gcu.data.entity.UserEntity;
+
+/**
+ * Registration "business service"
+ * Saves the user into the database
+ */
+@Service
+public class RegistrationService {
+
+    private final UsersDataService usersDataService;
+
+    
+    public RegistrationService(UsersDataService usersDataService) {
+        this.usersDataService = usersDataService;
+    }
+
+    /**
+     * Registers a user into the database
+     */
+    public boolean registerUser(String firstName, String lastName, String username, String email, String password) {
+    	if (usersDataService.findByEmail(email) != null) {
+    		return false;
+    	}
+    	
+    	if (usersDataService.findByUsername(username) != null) {
+    		return false;
+    	}
+    	
+    	UserEntity user = new UserEntity();
+    	user.setFirstName(firstName);
+    	user.setLastName(lastName);
+    	user.setUsername(username);
+    	user.setEmail(email);
+    	user.setPassword(password);
+    	return usersDataService.create(user);
+    }
+}

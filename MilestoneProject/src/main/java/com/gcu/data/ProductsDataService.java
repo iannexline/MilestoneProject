@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.gcu.data.entity.ProductEntity;
-import com.gcu.data.entity.UserEntity;
 import com.gcu.data.repository.ProductsRepository;
 
 @Service
@@ -45,7 +44,7 @@ List<ProductEntity> products = new ArrayList<ProductEntity>();
 	}
 
 	public ProductEntity findById(int id) {
-		return null;
+		return productsRepository.findById(id);
 	}
 
 	public ProductEntity findByName(String name) {
@@ -61,7 +60,7 @@ List<ProductEntity> products = new ArrayList<ProductEntity>();
 					product.getDescription(),
 					product.getPrice(),
 					product.getQuantity());
-			return rows ==1 ? true : false; 
+			return rows == 1 ? true : false; 
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -70,11 +69,31 @@ List<ProductEntity> products = new ArrayList<ProductEntity>();
 	}
 
 	public boolean update(ProductEntity product) {
-		return true;
+		String sql = "UPDATE PRODUCTS SET NAME = ?, DESCRIPTION = ?, PRICE = ?, QUANTITY = ? WHERE ID = ?";
+		try {
+			int rows = jdbcTemplateObject.update(sql,
+					product.getName(),
+					product.getDescription(),
+					product.getPrice(),
+					product.getQuantity());
+			return rows == 1; 
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
-	public boolean delete(ProductEntity product) {
-		return true;
+	public boolean delete(int id) {
+		String sql = "DELETE FROM PRODUCTS WHERE ID = ?";
+		try {
+			int rows = jdbcTemplateObject.update(sql, id);
+			return rows == 1 ? true : false;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }
