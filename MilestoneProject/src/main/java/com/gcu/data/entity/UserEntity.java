@@ -1,7 +1,10 @@
 package com.gcu.data.entity;
 
 import org.springframework.data.relational.core.mapping.Table;
-
+/**
+ * This class is used by the data layer to map database rows to Java objects
+ * It stores user registration and login information
+ */
 @Table("Users")
 public class UserEntity {
 	private Long id;
@@ -12,11 +15,16 @@ public class UserEntity {
 	private String password;
 	
 	
-	
+	/*
+	 * Default Constructor
+	 */
 	public UserEntity() {
 		super();
 	}
 
+	/*
+	 * Argument Constructor
+	 */
 	public UserEntity(Long id, String firstName, String lastName, String username, String email, String password) {
 		super();
 		this.id = id;
@@ -26,7 +34,7 @@ public class UserEntity {
 		this.email = email;
 		this.password = password;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}

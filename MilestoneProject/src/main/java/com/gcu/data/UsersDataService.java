@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import com.gcu.data.entity.UserEntity;
 import com.gcu.data.repository.UsersRepository;
 
+/**
+ * Implements the DataAccessInterface and uses Spring JDBC along with the UsersRepository to interact with the MySQL database.
+ */
 @Service
 public class UsersDataService implements DataAccessInterface<UserEntity>{
 	
@@ -47,6 +50,11 @@ public class UsersDataService implements DataAccessInterface<UserEntity>{
 		return usersRepository.findById(id);
 	}
 
+	/**
+	 * Finds a user using their username
+	 * @param username The username used to search for a user
+	 * @return The matching UserEntity if found, otherwise null
+	 */
 	public UserEntity findByUsername(String username) {
 		 return usersRepository.findByUsername(username);
 	}

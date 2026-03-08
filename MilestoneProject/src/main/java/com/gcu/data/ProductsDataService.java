@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import com.gcu.data.entity.ProductEntity;
 import com.gcu.data.repository.ProductsRepository;
 
+/**
+ * This class implements the DataAccessInterface and uses Spring JDBC together with ProductsRepository to perform CRUD operations on products
+ */
 @Service
 public class ProductsDataService implements DataAccessInterface<ProductEntity>{
 	
@@ -46,12 +49,16 @@ List<ProductEntity> products = new ArrayList<ProductEntity>();
 	public ProductEntity findById(int id) {
 		return productsRepository.findById(id);
 	}
-
+/**
+ * Finds a product by name
+ * @param name The name of the product
+ * @return the matching product if found, otherwise null
+ */
 	public ProductEntity findByName(String name) {
 		 return productsRepository.findByName(name);
 	}
 
-	
+
 	public boolean create(ProductEntity product) {
 		String sql = "INSERT INTO PRODUCTS(NAME, DESCRIPTION, PRICE, QUANTITY) VALUES (?, ?, ?, ?)";
 		try {

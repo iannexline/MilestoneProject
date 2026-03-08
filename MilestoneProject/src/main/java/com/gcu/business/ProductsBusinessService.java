@@ -11,6 +11,9 @@ import com.gcu.data.entity.ProductEntity;
 import com.gcu.data.repository.ProductsRepository;
 import com.gcu.model.ProductModel;
 
+/**
+ * This class retrieves product data from the data layer and converts ProductEntity objects into ProductModel objects for use by the presentation layer
+ */
 @Service
 public class ProductsBusinessService implements ProductsBusinessInterface{
 	
@@ -22,6 +25,7 @@ public class ProductsBusinessService implements ProductsBusinessInterface{
 		System.out.println("Hello from the ProductsBusinessService");
 	}
 	
+
 	@Override
 	public List<ProductModel> getProducts(){
 		var productsDomain = new ArrayList<ProductModel>();
@@ -33,7 +37,7 @@ public class ProductsBusinessService implements ProductsBusinessInterface{
 		
 		return productsDomain;
 	}
-	
+
 	@Override
 	public void init() {
 		System.out.println("init method from ProductsBusinessService");

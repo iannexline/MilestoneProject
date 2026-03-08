@@ -1,5 +1,8 @@
 package com.gcu.model;
 
+/**
+ * This class is used to transfer user data through the application without exposing persistence layer details.
+ */
 public class UserModel {
 
     private Long id;

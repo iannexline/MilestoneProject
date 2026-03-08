@@ -1,7 +1,9 @@
 package com.gcu.data.entity;
 
 import org.springframework.data.relational.core.mapping.Table;
-
+/**
+ * This class is used by the data layer to map product data from the database into Java objects for use in the application.
+ */
 @Table("Products")
 public class ProductEntity {
 	private Long id;
@@ -11,13 +13,22 @@ public class ProductEntity {
 	private Long quantity;
 	
 	
-	
+	/**
+	 * Default constructor
+	 */
 	public ProductEntity() {
 		super();
 	}
 
 
-
+	/**
+	 * Argument constructor
+	 * @param id
+	 * @param name
+	 * @param description
+	 * @param price
+	 * @param quantity
+	 */
 	public ProductEntity(Long id, String name, String description, Double price, Long quantity) {
 		super();
 		this.id = id;

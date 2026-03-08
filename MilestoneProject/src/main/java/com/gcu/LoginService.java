@@ -6,8 +6,8 @@ import com.gcu.data.UsersDataService;
 import com.gcu.data.entity.UserEntity;
 
 /**
- * Login "business service"
- * Milestone 3: checks the in-memory store.
+ * This service will validate user credentials by retrieving the user from the database and compare it to the store password. 
+ * Acts as the business layer between the controller and the data access layer.
  */
 @Service
 public class LoginService {
@@ -20,7 +20,10 @@ public class LoginService {
     }
 
     /**
-     * Returns true if credentials match the stored user.
+     * Attempts to authenticate a user using their username and password.
+     * @param username The username entered by the user
+     * @param password The password entered by the user
+     * @return true id the credentials are valid, false otherwise
      */
     public boolean attemptLogin(String username, String password) {
     	if (username == null || password == null) {
