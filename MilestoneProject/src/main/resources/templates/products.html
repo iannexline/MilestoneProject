@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html layout:decorate="~{common}" xmlns:th="http://www.thymeleaf.org">
+
+<div layout:fragment="content">
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-10">
+            <div class="brand-card p-4">
+                <h2 class="brand-title text-center mb-4">Products</h2>
+
+                <div class="text-center mb-4">
+                    <a th:href="@{/products/new}" class="btn brand-btn">Add New Product</a>
+                    <a th:href="@{/home}" class="btn btn-outline-dark ms-2">Back Home</a>
+                </div>
+
+                <div th:if="${products == null or #lists.isEmpty(products)}" class="text-center">
+                    <p>No products available.</p>
+                </div>
+
+                <div th:if="${products != null and !#lists.isEmpty(products)}">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="product : ${products}">
+                                <td th:text="${product.name}"></td>
+                                <td th:text="${product.description}"></td>
+                                <td>$<span th:text="${#numbers.formatDecimal(product.price,1,2)}"></span></td>
+                                <td th:text="${product.quantity}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</html>

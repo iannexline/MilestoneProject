@@ -7,8 +7,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gcu.data.ProductsDataService;
 import com.gcu.data.entity.ProductEntity;
-import com.gcu.data.repository.ProductsRepository;
 import com.gcu.model.ProductModel;
 
 /**
@@ -18,7 +18,7 @@ import com.gcu.model.ProductModel;
 public class ProductsBusinessService implements ProductsBusinessInterface{
 	
 	@Autowired
-	ProductsRepository service;
+	ProductsDataService service;
 	
 	@Override
 	public void test() {
@@ -36,6 +36,27 @@ public class ProductsBusinessService implements ProductsBusinessInterface{
 		}
 		
 		return productsDomain;
+	}
+	
+	/**
+	 * Creates a new product in the system.
+	 *
+	 * This method converts a ProductModel object from the presentation layer
+	 * into a ProductEntity object for the data layer, then saves it
+	 * to the database.
+	 *
+	 * @param product the product model containing the new product information
+	 * @return true if the product was successfully created, otherwise false
+	 */
+	public boolean createProduct(ProductModel product) {
+	    ProductEntity entity = new ProductEntity();
+
+	    entity.setName(product.getName());
+	    entity.setDescription(product.getDescription());
+	    entity.setPrice(product.getPrice());
+	    entity.setQuantity(product.getQuantity());
+
+	    return service.create(entity);
 	}
 
 	@Override

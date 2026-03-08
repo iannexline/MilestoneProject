@@ -11,6 +11,10 @@ public class ProductModel {
     private double price;
     private Long quantity;
     
+    public ProductModel() {
+    	
+    }
+    
 	public ProductModel(Long id, String name, String description, double price, Long quantity) {
 		super();
 		this.id = id;
