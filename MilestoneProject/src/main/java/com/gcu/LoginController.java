@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.gcu;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -6,8 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Login controller (web layer)
- * Uses LoginService bean (business layer).
+ * This controller processes login form submissions and interacts with the LoginService to validate credentials.
+ * If the authentication is successful, then the user is redirected to the home page.
+ * Otherwise, an error message is displayed.
  */
 @Controller
 public class LoginController {
@@ -35,17 +36,23 @@ public class LoginController {
         return "login-page";
     }
 
+    /**
+     * Processes login form submission.
+     * @param form The login form containing username and password.
+     * @param session HTTP session used to store login state.
+     * @param model Model used to pass data to the view.
+     * @return Redirects to home if login succeeds, otherwise reloads login page.
+     */
     @PostMapping("/login")
     public String processLogin(@ModelAttribute("loginForm") LoginForm form,
                                HttpSession session,
                                Model model) {
 
-        boolean ok = loginService.attemptLogin(
-                form.getUsername() == null ? "" : form.getUsername().trim(),
-                form.getPassword() == null ? "" : form.getPassword()
+        boolean success = loginService.attemptLogin(
+        		form.getUsername(), form.getPassword()
         );
 
-        if (ok) {
+        if (success) {
             session.setAttribute("loggedIn", true);              
             session.setAttribute("username", form.getUsername().trim());
             return "redirect:/home";

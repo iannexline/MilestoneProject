@@ -1,5 +1,8 @@
 package com.gcu.model;
 
+/**
+ * This class is used to transfer product data from the business layer to the web layer without exposing database specific details.
+ */
 public class ProductModel {
 
     private Long id;

@@ -1,1 +1,8 @@
 com.example.demo
+com.gcu
+com.gcu.business
+com.gcu.data
+com.gcu.data.entity
+com.gcu.data.repository
+com.gcu.model
+com.gcu.registration
