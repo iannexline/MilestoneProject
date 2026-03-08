@@ -30,4 +30,5 @@ public interface ProductsRepository extends CrudRepository<ProductEntity, Long>{
 	 */
 	@Query (value = "SELECT * FROM PRODUCTS WHERE ID = :id")
 	public ProductEntity findById(@Param("id")int id);
+
 }
