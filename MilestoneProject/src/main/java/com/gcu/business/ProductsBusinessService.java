@@ -39,6 +39,29 @@ public class ProductsBusinessService implements ProductsBusinessInterface{
 	}
 	
 	/**
+	 * Returns the product based on the id provided.
+	 * @param id The ID of the product
+	 * @return the ProductEntity object if found, or null if not found
+
+	 */
+	public ProductModel getProductById(int id) {
+        ProductEntity entity = service.findById(id);
+
+        if (entity == null) {
+            return null;
+        }
+
+        ProductModel product = new ProductModel();
+        product.setId(entity.getId());
+        product.setName(entity.getName());
+        product.setDescription(entity.getDescription());
+        product.setPrice(entity.getPrice());
+        product.setQuantity(entity.getQuantity());
+
+        return product;
+    }
+	
+	/**
 	 * Creates a new product in the system.
 	 *
 	 * This method converts a ProductModel object from the presentation layer
@@ -58,6 +81,31 @@ public class ProductsBusinessService implements ProductsBusinessInterface{
 
 	    return service.create(entity);
 	}
+	
+	/**
+	 * Updates the product
+	 * @param product The product being sold
+	 * @return true if the update was successful, false otherwise
+	 */
+	public boolean updateProduct(ProductModel product) {
+        ProductEntity entity = new ProductEntity();
+        entity.setId(product.getId());
+        entity.setName(product.getName());
+        entity.setDescription(product.getDescription());
+        entity.setPrice(product.getPrice());
+        entity.setQuantity(product.getQuantity());
+
+		return service.update(entity);
+    }
+	
+	/**
+	 * Deletes a product from the database by it's ID
+	 * @param id The ID of the product to delete
+	 * @return true if the product was successfully deleted, false otherwise
+	 */
+	public boolean deleteProduct(int id) {
+        return service.delete(id);
+    }
 
 	@Override
 	public void init() {
