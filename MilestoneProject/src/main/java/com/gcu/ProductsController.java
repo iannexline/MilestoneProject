@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.gcu.business.ProductsBusinessService;
@@ -56,5 +57,46 @@ public class ProductsController {
     public String showProducts(Model model) {
         model.addAttribute("products", productsBusinessService.getProducts());
         return "products";
+    }
+    
+    /**
+     * Handles GET request to display the edit product form.
+     * Retrieves the product by its ID and adds it to the model so the form can be pre-filled with existing data.
+     *
+     * @param id the ID of the product to edit
+     * @param model the Model object used to pass data to the view
+     * @return the name of the edit product form view
+     */
+    @GetMapping("/products/edit/{id}")
+    public String showEditProductForm(@PathVariable("id") int id, Model model) {
+        ProductModel product = productsBusinessService.getProductById(id);
+        model.addAttribute("product", product);
+        return "product-edit-form";
+    }
+    
+    /**
+     * Handles POST request to update an existing product.
+     * Receives the updated product data from the form and calls the business service to save the changes.
+     *
+     * @param product the ProductModel object containing updated data
+     * @return redirect to the products list page after update
+     */
+    @PostMapping("/products/update")
+    public String updateProduct(@ModelAttribute("product") ProductModel product) {
+        productsBusinessService.updateProduct(product);
+        return "redirect:/products";
+    }
+
+    /**
+     * Handles GET request to delete a product by its ID.
+     * Calls the business service to remove the product and then redirects back to the product list.
+     *
+     * @param id the ID of the product to delete
+     * @return redirect to the products list page after deletion
+     */
+    @GetMapping("/products/delete/{id}")
+    public String deleteProduct(@PathVariable("id") int id) {
+        productsBusinessService.deleteProduct(id);
+        return "redirect:/products";
     }
 }

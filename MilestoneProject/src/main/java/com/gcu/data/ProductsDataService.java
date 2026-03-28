@@ -82,8 +82,9 @@ List<ProductEntity> products = new ArrayList<ProductEntity>();
 					product.getName(),
 					product.getDescription(),
 					product.getPrice(),
-					product.getQuantity());
-			return rows == 1; 
+					product.getQuantity(),
+					product.getId());
+		return rows == 1; 
 		}
 		catch (Exception e) {
 			e.printStackTrace();
