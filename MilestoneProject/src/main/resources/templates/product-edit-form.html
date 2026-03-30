@@ -1,27 +1,34 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Edit Product</title>
-</head>
-<body>
-    <h2>Edit Product</h2>
+<html layout:decorate="~{common}" xmlns:th="http://www.thymeleaf.org">
 
-    <form th:action="@{/products/update}" th:object="${product}" method="post">
-        <input type="hidden" th:field="*{id}" />
+<div layout:fragment="content">
 
-        <label>Name:</label>
-        <input type="text" th:field="*{name}" /><br><br>
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6">
+            <div class="brand-card p-4">
+                <h2 class="brand-title text-center mb-4">Edit Product</h2>
 
-        <label>Description:</label>
-        <input type="text" th:field="*{description}" /><br><br>
+                <form th:action="@{/products/update}" th:object="${product}" method="post">
+                    <input type="hidden" th:field="*{id}" />
 
-        <label>Price:</label>
-        <input type="text" th:field="*{price}" /><br><br>
+                    <input class="form-control mb-2" th:field="*{name}" placeholder="Product Name">
 
-        <label>Quantity:</label>
-        <input type="text" th:field="*{quantity}" /><br><br>
+                    <input class="form-control mb-2" th:field="*{description}" placeholder="Description">
 
-        <button type="submit">Update Product</button>
-    </form>
-</body>
+                    <input class="form-control mb-2" th:field="*{price}" placeholder="Price">
+
+                    <input class="form-control mb-3" th:field="*{quantity}" placeholder="Quantity">
+
+                    <button type="submit" class="btn brand-btn w-100">Update Product</button>
+
+                    <a th:href="@{/products}" class="btn btn-outline-dark w-100 mt-2">Cancel</a>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
 </html>
