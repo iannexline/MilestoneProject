@@ -1,65 +1,47 @@
 package com.gcu;
 
-import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * This controller processes login form submissions and interacts with the LoginService to validate credentials.
- * If the authentication is successful, then the user is redirected to the home page.
- * Otherwise, an error message is displayed.
+ * Handles requests related to the login page.
+ * Displays login form and handles messages for registration, errors, and logout.
  */
 @Controller
 public class LoginController {
 
-    private final LoginService loginService;
-
-    public LoginController(LoginService loginService) {
-        this.loginService = loginService;
-    }
-
+    /**
+     * Displays the login page and handles optional query parameters for messages.
+     * @param model Model object used to pass data to the view
+     * @param registered Indicates if the user has just registered successfully
+     * @param error Indicates if there was a login error
+     * @param logout Indicates if the user has logged out
+     * @return the login page view name
+     */
     @GetMapping("/login")
     public String showLoginForm(Model model,
-                               @RequestParam(value = "registered", required = false) String registered) {
+                                @RequestParam(value = "registered", required = false) String registered,
+                                @RequestParam(value = "error", required = false) String error,
+                                @RequestParam(value = "logout", required = false) String logout) {
 
-        // Make sure the form always exists
         if (!model.containsAttribute("loginForm")) {
             model.addAttribute("loginForm", new LoginForm());
         }
 
-        // Optional: show success message after register redirect
         if (registered != null) {
             model.addAttribute("registerSuccess", "Registration successful! Please log in.");
         }
 
-        return "login-page";
-    }
-
-    /**
-     * Processes login form submission.
-     * @param form The login form containing username and password.
-     * @param session HTTP session used to store login state.
-     * @param model Model used to pass data to the view.
-     * @return Redirects to home if login succeeds, otherwise reloads login page.
-     */
-    @PostMapping("/login")
-    public String processLogin(@ModelAttribute("loginForm") LoginForm form,
-                               HttpSession session,
-                               Model model) {
-
-        boolean success = loginService.attemptLogin(
-        		form.getUsername(), form.getPassword()
-        );
-
-        if (success) {
-            session.setAttribute("loggedIn", true);              
-            session.setAttribute("username", form.getUsername().trim());
-            return "redirect:/home";
+        if (error != null) {
+            model.addAttribute("loginError", "Invalid username or password.");
         }
 
-        model.addAttribute("loginError", "Invalid username or password");
+        if (logout != null) {
+            model.addAttribute("logoutMessage", "You have been logged out.");
+        }
+
         return "login-page";
     }
-
 }
