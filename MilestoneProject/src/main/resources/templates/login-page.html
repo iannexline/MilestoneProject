@@ -152,6 +152,8 @@
         <div th:if="${registerSuccess}" class="alert alert-success mb-3" th:text="${registerSuccess}"></div>
         <!-- Error message -->
         <div th:if="${loginError}" class="alert alert-danger mb-3" th:text="${loginError}"></div>
+        <!-- Logout Message -->
+        <p th:if="${logoutMessage}" th:text="${logoutMessage}"></p>
 
         <form th:action="@{/login}" th:object="${loginForm}" method="post">
 
