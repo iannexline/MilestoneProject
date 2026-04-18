@@ -1,5 +1,6 @@
 package com.gcu.data.entity;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 /**
  * This class is used by the data layer to map database rows to Java objects
@@ -7,6 +8,7 @@ import org.springframework.data.relational.core.mapping.Table;
  */
 @Table("Users")
 public class UserEntity {
+	@Id
 	private Long id;
 	private String firstName;
 	private String lastName;
