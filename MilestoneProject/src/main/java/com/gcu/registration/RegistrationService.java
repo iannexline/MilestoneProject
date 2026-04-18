@@ -1,5 +1,6 @@
 package com.gcu.registration;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.gcu.data.UsersDataService;
@@ -13,10 +14,12 @@ import com.gcu.data.entity.UserEntity;
 public class RegistrationService {
 
     private final UsersDataService usersDataService;
+    private final PasswordEncoder passwordEncoder;
 
     
-    public RegistrationService(UsersDataService usersDataService) {
+    public RegistrationService(PasswordEncoder passwordEncoder, UsersDataService usersDataService) {
         this.usersDataService = usersDataService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -32,11 +35,13 @@ public class RegistrationService {
     	}
     	
     	UserEntity user = new UserEntity();
-    	user.setFirstName(firstName);
-    	user.setLastName(lastName);
-    	user.setUsername(username);
-    	user.setEmail(email);
-    	user.setPassword(password);
-    	return usersDataService.create(user);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(passwordEncoder.encode(password));
+
+        return usersDataService.create(user);
     }
+
 }

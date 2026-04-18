@@ -4,15 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import com.gcu.data.entity.UserEntity;
 import com.gcu.data.repository.UsersRepository;
 import com.gcu.model.UserModel;
 
+@Service
 public class UsersBusinessService implements UsersBusinessInterface{
 	
 	@Autowired
 	UsersRepository service;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@Override
 	public void test() {
@@ -29,6 +34,21 @@ public class UsersBusinessService implements UsersBusinessInterface{
 		}
 		
 		return usersDomain;
+	}
+	
+	public void registerUser(UserModel userModel) 
+	{
+	    UserEntity user = new UserEntity();
+
+	    user.setFirstName(userModel.getFirstName());
+	    user.setLastName(userModel.getLastName());
+	    user.setUsername(userModel.getUsername());
+	    user.setEmail(userModel.getEmail());
+
+	    // 🔥 Encrypt password HERE
+	    user.setPassword(passwordEncoder.encode(userModel.getPassword()));
+
+	    service.save(user); // since you're using repository directly
 	}
 	
 	@Override
