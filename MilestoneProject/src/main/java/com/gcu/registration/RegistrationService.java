@@ -1,6 +1,6 @@
 package com.gcu.registration;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.gcu.data.UsersDataService;
@@ -14,11 +14,11 @@ import com.gcu.data.entity.UserEntity;
 public class RegistrationService {
 
     private final UsersDataService usersDataService;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    public RegistrationService(UsersDataService usersDataService) {
+    public RegistrationService(PasswordEncoder passwordEncoder, UsersDataService usersDataService) {
         this.usersDataService = usersDataService;
-        this.passwordEncoder = new BCryptPasswordEncoder();
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -26,25 +26,20 @@ public class RegistrationService {
      */
     public boolean registerUser(String firstName, String lastName, String username, String email, String password) {
 
-        // Check if email already exists
         if (usersDataService.findByEmail(email) != null) {
             return false;
         }
 
-        // Check if username already exists
         if (usersDataService.findByUsername(username) != null) {
             return false;
         }
-
-        // Encrypt the password before saving
-        String encryptedPassword = passwordEncoder.encode(password);
 
         UserEntity user = new UserEntity();
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setUsername(username);
         user.setEmail(email);
-        user.setPassword(encryptedPassword);
+        user.setPassword(passwordEncoder.encode(password));
 
         return usersDataService.create(user);
     }
