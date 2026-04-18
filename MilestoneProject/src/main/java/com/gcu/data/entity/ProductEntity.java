@@ -1,11 +1,13 @@
 package com.gcu.data.entity;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 /**
  * This class is used by the data layer to map product data from the database into Java objects for use in the application.
  */
 @Table("Products")
 public class ProductEntity {
+	@Id
 	private Long id;
 	private String name;
 	private String description;
