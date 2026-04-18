@@ -8,7 +8,7 @@ import com.gcu.data.entity.UserEntity;
 
 /**
  * Registration "business service"
- * Saves the user into the database
+ * Encrypts the password using BCrypt before saving the user into the database.
  */
 @Service
 public class RegistrationService {
@@ -16,25 +16,25 @@ public class RegistrationService {
     private final UsersDataService usersDataService;
     private final PasswordEncoder passwordEncoder;
 
-    
     public RegistrationService(PasswordEncoder passwordEncoder, UsersDataService usersDataService) {
         this.usersDataService = usersDataService;
         this.passwordEncoder = passwordEncoder;
     }
 
     /**
-     * Registers a user into the database
+     * Registers a user into the database with an encrypted password.
      */
     public boolean registerUser(String firstName, String lastName, String username, String email, String password) {
-    	if (usersDataService.findByEmail(email) != null) {
-    		return false;
-    	}
-    	
-    	if (usersDataService.findByUsername(username) != null) {
-    		return false;
-    	}
-    	
-    	UserEntity user = new UserEntity();
+
+        if (usersDataService.findByEmail(email) != null) {
+            return false;
+        }
+
+        if (usersDataService.findByUsername(username) != null) {
+            return false;
+        }
+
+        UserEntity user = new UserEntity();
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setUsername(username);
@@ -43,5 +43,4 @@ public class RegistrationService {
 
         return usersDataService.create(user);
     }
-
 }
