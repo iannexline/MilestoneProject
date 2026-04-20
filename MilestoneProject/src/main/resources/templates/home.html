@@ -1,90 +1,178 @@
 <!DOCTYPE html>
-<html layout:decorate="~{common}" xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{common}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <div layout:fragment="content">
 
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="brand-card p-4 text-center">
-                <h2 class="brand-title">Welcome</h2>
+  <style>
+    :root {
+      --pink:    #f9c8d4;
+      --black:   #0f0f0f;
+      --white:   #ffffff;
+      --offwhite:#f7f7f5;
+      --muted:   #888;
+    }
 
-                <p>
-                    Logged in as:
-                    <b th:text="${username}"></b>
-                </p>
+    .varo-welcome {
+      background: var(--black);
+      color: var(--white);
+      border-radius: 4px;
+      padding: 2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .varo-welcome h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.25rem;
+    }
+    .varo-welcome h2 span { color: var(--pink); }
+    .varo-welcome p {
+      font-size: 0.85rem;
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin: 0;
+    }
 
-                <div class="d-grid gap-2 mt-4">
-                    <a th:href="@{/products}" class="btn brand-btn">
-                        View Products
-                    </a>
+    .varo-btn {
+      background: var(--pink);
+      color: var(--black);
+      border: 2px solid var(--black);
+      border-radius: 2px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+      padding: 0.6rem 1.5rem;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 3px 3px 0 var(--black);
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .varo-btn:hover {
+      background: var(--black);
+      color: var(--pink);
+      transform: translate(1px, 1px);
+      box-shadow: 2px 2px 0 var(--pink);
+    }
 
-				<div th:if="${products != null and !#lists.isEmpty(products)}">
-					<table class="table table-striped table-bordered">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Description</th>
-								<th>Price</th>
-								<th>Quantity</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="product : ${products}">
-								<td th:text="${product.name}"></td>
-								<td th:text="${product.description}"></td>
-								<td th:text="${#numbers.formatDecimal(product.price,1,2)}"></td>
-								<td th:text="${product.quantity}"></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-=======
-                    <a th:href="@{/products/new}" class="btn brand-btn">
-                        Add New Product
-                    </a>
-                </div>
+    .varo-btn-dark {
+      background: var(--black);
+      color: var(--white);
+      border: 2px solid var(--black);
+      border-radius: 2px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+      padding: 0.6rem 1.5rem;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 3px 3px 0 var(--pink);
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .varo-btn-dark:hover {
+      background: var(--pink);
+      color: var(--black);
+      transform: translate(1px, 1px);
+      box-shadow: 2px 2px 0 var(--black);
+    }
 
-                <a th:href="@{/logout}" class="btn btn-outline-dark mt-3">
-                    Logout
-                </a>
-            </div>
-  
+    .products-card {
+      background: var(--white);
+      border: 2px solid var(--black);
+      border-radius: 4px;
+      box-shadow: 6px 6px 0 var(--pink);
+      padding: 2rem;
+    }
 
-    <!-- Products Section -->
-    <div class="row justify-content-center mt-4">
-        <div class="col-md-10">
-            <div class="brand-card p-4">
-                <h3 class="brand-title text-center mb-4">Products</h3>
+    .products-card h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.1em;
+      border-bottom: 2px solid var(--pink);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
 
-                <div th:if="${products == null or #lists.isEmpty(products)}" class="text-center">
-                    <p>No products available.</p>
-                </div>
+    .table thead {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.1em;
+      font-size: 0.95rem;
+    }
 
-                <div th:if="${products != null and !#lists.isEmpty(products)}">
-                    <table class="table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="product : ${products}">
-                                <td th:text="${product.name}"></td>
-                                <td th:text="${product.description}"></td>
-                                <td th:text="${product.price}"></td>
-                                <td th:text="${product.quantity}"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+    .table tbody tr:hover {
+      background: #fff0f3;
+    }
+
+    .table td {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      vertical-align: middle;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+    }
+    .empty-state .empty-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+
+  <!-- Welcome Banner -->
+  <div class="varo-welcome">
+    <h2>Welcome to <span>Varo</span></h2>
+    <p>Logged in as: <span th:text="${username}" style="color:#f9c8d4;"></span></p>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="d-flex gap-3 justify-content-center mb-4 flex-wrap">
+    <a th:href="@{/products}" class="varo-btn">View Products</a>
+    <a th:href="@{/products/new}" class="varo-btn-dark">Add New Product</a>
+  </div>
+
+  <!-- Products Table -->
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="products-card">
+        <h3>Products</h3>
+
+        <div th:if="${products == null or #lists.isEmpty(products)}" class="empty-state">
+          <div class="empty-icon">🛍️</div>
+          <p>No products available yet. Add one to get started!</p>
         </div>
-    </div>
 
+        <div th:if="${products != null and !#lists.isEmpty(products)}">
+          <table class="table table-bordered mb-0">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="product : ${products}">
+                <td th:text="${product.name}"></td>
+                <td th:text="${product.description}"></td>
+                <td th:text="${#numbers.formatDecimal(product.price,1,2)}"></td>
+                <td th:text="${product.quantity}"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
 </html>
